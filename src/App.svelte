@@ -20,6 +20,7 @@
     --bg: hsl(185, 41%, 84%);
     --txt: hsl(186, 14%, 43%);
     --secondary-txt: hsl(189, 41%, 97%);
+    --error: #ed4337;
     color: var(--txt);
     font-family: 'Space Mono', monospace;
     font-weight: 700;

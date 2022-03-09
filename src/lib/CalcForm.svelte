@@ -1,28 +1,71 @@
 <script lang="ts">
   import SelectButton from './SelectButton.svelte';
-  let selectedOption = 0;
+  import splitIt from '../helpers/splitIt';
+  let selectedTip = 0;
+  let customTip = '';
+  let bill = '';
+  let people = '';
+  let error = false;
 
-  const handleSelect = (value : number) => {
-    selectedOption = value;
+  const selectTip = (value : number) => {
+    selectedTip = value;
+    handleCalc();
   }
+
+  const handleCalc = () => {
+    if(error){
+      error = false;
+    }
+    if(bill && people && !error){
+      const tipValue = customTip ? parseInt(customTip, 10) : selectedTip;
+      const calculatedValues = splitIt(parseInt(bill, 10), parseInt(people,10), tipValue);
+      console.log(calculatedValues);
+    }
+    if(parseInt(people, 10) <= 0){
+      error = true;
+    }
+  }
+
 </script>
 
 <div class="container">
   <label for="bill">Bill</label>
-  <input type="number" id="bill" />
+  <input type="number" id="bill" bind:value={bill} on:input={handleCalc}/>
 
   <p>Select tip %</p>
   <div class="buttons-wrapper">
-    <SelectButton handleSelect={() => handleSelect(5)} active={selectedOption === 5}>5%</SelectButton>
-    <SelectButton handleSelect={() => handleSelect(10)} active={selectedOption === 10}>10%</SelectButton>
-    <SelectButton handleSelect={() => handleSelect(15)} active={selectedOption === 15}>15%</SelectButton>
-    <SelectButton handleSelect={() => handleSelect(25)} active={selectedOption === 25}>25%</SelectButton>
-    <SelectButton handleSelect={() => handleSelect(50)} active={selectedOption === 50}>50%</SelectButton>
-    <input type="number" placeholder="Custom"/>
+    <SelectButton 
+      handleSelect={() => selectTip(5)} 
+      active={selectedTip === 5 && !customTip}>
+      5%
+    </SelectButton>
+    <SelectButton 
+      handleSelect={() => selectTip(10)} 
+      active={selectedTip === 10 && !customTip}>
+      10%
+    </SelectButton>
+    <SelectButton 
+      handleSelect={() => selectTip(15)} 
+      active={selectedTip === 15 && !customTip}>
+      15%
+    </SelectButton>
+    <SelectButton 
+      handleSelect={() => selectTip(25)} 
+      active={selectedTip === 25 && !customTip}>
+      25%
+    </SelectButton>
+    <SelectButton 
+      handleSelect={() => selectTip(50)} 
+      active={selectedTip === 50 && !customTip}>
+      50%
+    </SelectButton>
+    <input type="number" placeholder="Custom" bind:value={customTip} on:input={handleCalc}/>
   </div>
-
-  <label for="people">Number of People</label>
-  <input type="number" id="people" />
+  <div class="label-wrapper">
+    <label for="people">Number of People</label>
+    <span>{error ? "Can't be zero" : ''}</span>
+  </div>
+  <input type="number" id="people" bind:value={people} on:input={handleCalc} min="1" step="1" />
 </div>
 
 <style>
@@ -35,11 +78,16 @@
     border: 2px solid var(--white);
     color: var(--primary-strong);
     font-size: 1.2rem;
+    transition: 0.2s;
   }
 
   input:focus {
     border: 2px solid var(--primary);
     outline: none;
+  }
+
+  input:invalid {
+    border: 2px solid var(--error);
   }
 
   label {
@@ -56,6 +104,17 @@
     gap: 1rem;
     flex-wrap: wrap;
     margin-bottom: 2rem;
+  }
+
+  .label-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .label-wrapper > span {
+    color: var(--error);
+    transition: 0.2s;
   }
   
   .buttons-wrapper > input {
