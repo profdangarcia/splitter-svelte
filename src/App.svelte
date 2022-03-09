@@ -5,7 +5,9 @@
 
 <main>
   <img src={logo} alt="SPLITTER" />
-  <Container />
+  <Container>
+    <p>Bill</p>
+  </Container>
 </main>
 
 <style>
