@@ -1,12 +1,13 @@
 <script lang="ts">
   import logo from './assets/logo.svg'
   import Container from './lib/Container.svelte';
+  import CalcForm from './lib/CalcForm.svelte';
 </script>
 
 <main>
   <img src={logo} alt="SPLITTER" />
   <Container>
-    <p>Bill</p>
+    <CalcForm />
   </Container>
 </main>
 
