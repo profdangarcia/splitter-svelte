@@ -12,16 +12,16 @@
   <input type="number" id="bill" />
 
   <p>Select tip %</p>
-
-  <label for="people">Number of People</label>
   <div class="buttons-wrapper">
     <SelectButton handleSelect={() => handleSelect(5)} active={selectedOption === 5}>5%</SelectButton>
     <SelectButton handleSelect={() => handleSelect(10)} active={selectedOption === 10}>10%</SelectButton>
     <SelectButton handleSelect={() => handleSelect(15)} active={selectedOption === 15}>15%</SelectButton>
     <SelectButton handleSelect={() => handleSelect(25)} active={selectedOption === 25}>25%</SelectButton>
     <SelectButton handleSelect={() => handleSelect(50)} active={selectedOption === 50}>50%</SelectButton>
-    <SelectButton>Custom</SelectButton>
+    <input type="number" placeholder="Custom"/>
   </div>
+
+  <label for="people">Number of People</label>
   <input type="number" id="people" />
 </div>
 
@@ -55,6 +55,12 @@
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  
+  .buttons-wrapper > input {
+    background-color: var(--secondary-txt);
+    max-width: calc((100% - 1rem) / 2);
   }
 
   #bill {
@@ -66,4 +72,11 @@
     background: url('/icon-person.svg') no-repeat scroll 0.8rem 1rem;
     background-color: var(--secondary-txt);
   }
+
+  @media (min-width: 768px) { 
+    .buttons-wrapper > input {
+      max-width: calc((100% - 2rem) / 3);
+    }
+  }
+
 </style>

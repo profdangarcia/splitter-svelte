@@ -26,7 +26,6 @@
   }
 
   @media (min-width: 768px) { 
-
     .select-button {
       max-width: calc((100% - 2rem) / 3);
     }
