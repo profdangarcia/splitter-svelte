@@ -8,7 +8,6 @@ const splitIt = (bill: number, people: number, tip: number): Splitted => {
   let totalPerPerson = 0;
 
   if(bill && people){
-    console.log('entrei');
     let totalBill = bill;
     let totalTip = 0;
     if(tip){

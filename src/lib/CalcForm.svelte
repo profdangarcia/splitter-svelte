@@ -1,11 +1,27 @@
 <script lang="ts">
   import SelectButton from './SelectButton.svelte';
+  import DisplayBox from './DisplayBox.svelte';
   import splitIt from '../helpers/splitIt';
   let selectedTip = 0;
   let customTip = '';
   let bill = '';
   let people = '';
   let error = false;
+  let calculatedValues = {
+    tipPerPerson: 0,
+    totalPerPerson: 0,
+  };
+
+  const resetForm = () => {
+    bill = '';
+    people = '';
+    selectedTip = 0;
+    customTip = '';
+    calculatedValues = {
+      tipPerPerson: 0,
+      totalPerPerson: 0,
+    };
+  }
 
   const selectTip = (value : number) => {
     selectedTip = value;
@@ -18,8 +34,7 @@
     }
     if(bill && people && !error){
       const tipValue = customTip ? parseInt(customTip, 10) : selectedTip;
-      const calculatedValues = splitIt(parseInt(bill, 10), parseInt(people,10), tipValue);
-      console.log(calculatedValues);
+      calculatedValues = splitIt(parseInt(bill, 10), parseInt(people,10), tipValue);
     }
     if(parseInt(people, 10) <= 0){
       error = true;
@@ -29,46 +44,60 @@
 </script>
 
 <div class="container">
-  <label for="bill">Bill</label>
-  <input type="number" id="bill" bind:value={bill} on:input={handleCalc}/>
+  <div class="calc-box">
+    <label for="bill">Bill</label>
+    <input type="number" id="bill" bind:value={bill} on:input={handleCalc}/>
 
-  <p>Select tip %</p>
-  <div class="buttons-wrapper">
-    <SelectButton 
-      handleSelect={() => selectTip(5)} 
-      active={selectedTip === 5 && !customTip}>
-      5%
-    </SelectButton>
-    <SelectButton 
-      handleSelect={() => selectTip(10)} 
-      active={selectedTip === 10 && !customTip}>
-      10%
-    </SelectButton>
-    <SelectButton 
-      handleSelect={() => selectTip(15)} 
-      active={selectedTip === 15 && !customTip}>
-      15%
-    </SelectButton>
-    <SelectButton 
-      handleSelect={() => selectTip(25)} 
-      active={selectedTip === 25 && !customTip}>
-      25%
-    </SelectButton>
-    <SelectButton 
-      handleSelect={() => selectTip(50)} 
-      active={selectedTip === 50 && !customTip}>
-      50%
-    </SelectButton>
-    <input type="number" placeholder="Custom" bind:value={customTip} on:input={handleCalc}/>
+    <p>Select tip %</p>
+    <div class="buttons-wrapper">
+      <SelectButton 
+        handleSelect={() => selectTip(5)} 
+        active={selectedTip === 5 && !customTip}>
+        5%
+      </SelectButton>
+      <SelectButton 
+        handleSelect={() => selectTip(10)} 
+        active={selectedTip === 10 && !customTip}>
+        10%
+      </SelectButton>
+      <SelectButton 
+        handleSelect={() => selectTip(15)} 
+        active={selectedTip === 15 && !customTip}>
+        15%
+      </SelectButton>
+      <SelectButton 
+        handleSelect={() => selectTip(25)} 
+        active={selectedTip === 25 && !customTip}>
+        25%
+      </SelectButton>
+      <SelectButton 
+        handleSelect={() => selectTip(50)} 
+        active={selectedTip === 50 && !customTip}>
+        50%
+      </SelectButton>
+      <input type="number" placeholder="Custom" bind:value={customTip} on:input={handleCalc}/>
+    </div>
+    <div class="label-wrapper">
+      <label for="people">Number of People</label>
+      <span>{error ? "Can't be zero" : ''}</span>
+    </div>
+    <input type="number" id="people" bind:value={people} on:input={handleCalc} min="1" step="1" />
   </div>
-  <div class="label-wrapper">
-    <label for="people">Number of People</label>
-    <span>{error ? "Can't be zero" : ''}</span>
-  </div>
-  <input type="number" id="people" bind:value={people} on:input={handleCalc} min="1" step="1" />
+
+  <DisplayBox displayValues={calculatedValues} handleReset={resetForm} />
 </div>
 
 <style>
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .calc-box {
+    width: 100%;
+  }
   input {
     border: 0;
     padding: 0.6rem;
@@ -133,6 +162,10 @@
   }
 
   @media (min-width: 768px) { 
+
+    .container {
+      flex-direction: row;
+    }
     .buttons-wrapper > input {
       max-width: calc((100% - 2rem) / 3);
     }

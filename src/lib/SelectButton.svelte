@@ -20,6 +20,11 @@
     transition: 0.2s;
   }
 
+  .select-button:hover {
+    background: var(--bg);
+    color: var(--primary-strong);
+  }
+
   .selected {
     background: var(--primary);
     color: var(--primary-strong);
