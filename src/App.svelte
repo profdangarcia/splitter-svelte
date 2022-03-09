@@ -1,65 +1,67 @@
 <script lang="ts">
-  import logo from './assets/svelte.png'
-  import Counter from './lib/Counter.svelte'
+  import logo from './assets/logo.svg'
+  import Container from './lib/Container.svelte';
 </script>
 
 <main>
-  <img src={logo} alt="Svelte Logo" />
-  <h1>Hello Typescript!</h1>
-
-  <Counter />
-
-  <p>
-    Visit <a href="https://svelte.dev">svelte.dev</a> to learn how to build Svelte
-    apps.
-  </p>
-
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme">SvelteKit</a> for
-    the officially supported framework, also powered by Vite!
-  </p>
+  <img src={logo} alt="SPLITTER" />
+  <Container />
 </main>
 
 <style>
   :root {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    --white: hsl(0, 0%, 100%);
+    --primary: hsl(172, 67%, 45%);
+    --primary-strong: hsl(183, 100%, 15%);
+    --secondary: hsl(184, 14%, 56%);
+    --bg: hsl(185, 41%, 84%);
+    --txt: hsl(186, 14%, 43%);
+    --secondary-txt: hsl(189, 41%, 97%);
+    color: var(--txt);
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+  }
+
+  :global(*) {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :global(body){
+    background: var(--bg);
+    width: 100%;
+    min-height: 100vh;
   }
 
   main {
-    text-align: center;
-    padding: 1em;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    max-width: 1440px;
     margin: 0 auto;
   }
 
   img {
-    height: 16rem;
-    width: 16rem;
+    margin: 3rem 0 2rem;
   }
 
-  h1 {
-    color: #ff3e00;
-    text-transform: uppercase;
-    font-size: 4rem;
-    font-weight: 100;
-    line-height: 1.1;
-    margin: 2rem auto;
-    max-width: 14rem;
+  :global(input, select, textarea, button) {
+    font-family:inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    cursor: pointer;
   }
 
-  p {
-    max-width: 14rem;
-    margin: 1rem auto;
-    line-height: 1.35;
-  }
-
-  @media (min-width: 480px) {
-    h1 {
-      max-width: none;
+  @media (min-width: 768px) { 
+    main {
+      padding:  1rem;
+    }
+    img {
+      margin: 8rem 0 5rem;
     }
 
-    p {
-      max-width: none;
-    }
   }
+
 </style>
