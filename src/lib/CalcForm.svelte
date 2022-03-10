@@ -33,8 +33,8 @@
       error = false;
     }
     if(bill && people && !error){
-      const tipValue = customTip ? parseInt(customTip, 10) : selectedTip;
-      calculatedValues = splitIt(parseInt(bill, 10), parseInt(people,10), tipValue);
+      const tipValue = customTip ? parseFloat(customTip) : selectedTip;
+      calculatedValues = splitIt(parseFloat(bill), parseInt(people,10), tipValue);
     }
     if(parseInt(people, 10) <= 0){
       error = true;
@@ -46,7 +46,7 @@
 <div class="container">
   <div class="calc-box">
     <label for="bill">Bill</label>
-    <input type="number" id="bill" bind:value={bill} on:input={handleCalc}/>
+    <input type="number" id="bill" bind:value={bill} on:input={handleCalc} step="0.01"/>
 
     <p>Select tip %</p>
     <div class="buttons-wrapper">
